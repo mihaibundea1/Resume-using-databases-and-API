@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Crează utilizatorul 'admin' și atribuie-i toate privilegiile
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin_password';  -- Creează utilizatorul cu o parolă (schimbă 'admin_password' cu o parolă mai sigură)
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin_password';
 
 GRANT ALL PRIVILEGES ON myapp.* TO 'admin'@'localhost' WITH GRANT OPTION;  -- Atribuie toate privilegiile pe baza de date 'myapp'
 

@@ -127,6 +127,32 @@
             border-radius: 20px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
+		
+		<!-- Adaugă aceste stiluri în secțiunea <style> -->
+		.toggle-form {
+			text-align: center;
+			margin-top: 15px;
+			font-size: 14px;
+			color: #4a5568;
+		}
+
+		.toggle-form button {
+			background: none;
+			border: none;
+			color: #4a90e2;
+			cursor: pointer;
+			padding: 0;
+			margin-left: 5px;
+			font-size: 14px;
+			box-shadow: none;
+		}
+
+		.toggle-form button:hover {
+			text-decoration: underline;
+			transform: none;
+			box-shadow: none;
+		}
+
 
         .profile-header h1 {
     font-size: 42px;
@@ -396,24 +422,53 @@
 </head>
 <body>
     <div id="particles-js"></div>
-    <div class="container">
-        <div class="login-container" id="loginForm">
-            <h2>Welcome Back</h2>
-            <div class="form-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="username" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" placeholder="Password" required>
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-circle"></i> Credențiale invalide!
-                </div>
-            </div>
-            <button onclick="login()">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-        </div>
+    <!-- Modifică secțiunea de login astfel: -->
+	<div class="container">
+		<div class="login-container" id="loginForm">
+			<h2>Welcome Back</h2>
+			<form onsubmit="login(event)">  <!-- Am adăugat form și event -->
+				<div class="form-group">
+					<i class="fas fa-user"></i>
+					<input type="text" id="username" placeholder="Username" required>
+				</div>
+				<div class="form-group">
+					<i class="fas fa-lock"></i>
+					<input type="password" id="password" placeholder="Password" required>
+					<div class="error-message" id="errorMessage">
+						<i class="fas fa-exclamation-circle"></i> Credențiale invalide!
+					</div>
+				</div>
+				<button type="submit">
+					<i class="fas fa-sign-in-alt"></i> Login
+				</button>
+			</form>
+			<div class="toggle-form">
+				Nu ai cont? <button type="button" onclick="toggleForm('register')">Înregistrează-te</button>
+			</div>
+		</div>
+
+		<div class="login-container" id="registerForm" style="display: none;">
+			<h2>Create Account</h2>
+			<form onsubmit="register(event)">  <!-- Am adăugat form și event -->
+				<div class="form-group">
+					<i class="fas fa-user"></i>
+					<input type="text" id="regUsername" placeholder="Username" required>
+				</div>
+				<div class="form-group">
+					<i class="fas fa-lock"></i>
+					<input type="password" id="regPassword" placeholder="Password" required>
+					<div class="error-message" id="regErrorMessage">
+						<i class="fas fa-exclamation-circle"></i> Eroare la înregistrare!
+					</div>
+				</div>
+				<button type="submit">
+					<i class="fas fa-user-plus"></i> Register
+				</button>
+			</form>
+			<div class="toggle-form">
+				Ai deja cont? <button type="button" onclick="toggleForm('login')">Conectează-te</button>
+			</div>
+		</div>
 
         <div class="profile-container" id="profileContent">
             <div class="section profile-header">
@@ -620,47 +675,91 @@
             retina_detect: true
         });
 
-        	async function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const errorMessage = document.getElementById('errorMessage');
+		async function login(event) {
+			event.preventDefault(); // Previne reîncărcarea paginii
+			const username = document.getElementById('username').value;
+			const password = document.getElementById('password').value;
+			const errorMessage = document.getElementById('errorMessage');
 
-        try {
-            const response = await fetch('http://localhost:5000/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
+			try {
+				const response = await fetch('http://localhost:5000/login', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ username, password })
+				});
 
-            if (response.ok) {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('profileContent').style.display = 'block';
+				if (response.ok) {
+					document.getElementById('loginForm').style.display = 'none';
+					document.getElementById('profileContent').style.display = 'block';
 
-                const sections = document.querySelectorAll('.section');
-                sections.forEach((section, index) => {
-                    setTimeout(() => {
-                        section.classList.add('fade-in');
-                    }, index * 200);
-                });
+					const sections = document.querySelectorAll('.section');
+					sections.forEach((section, index) => {
+						setTimeout(() => {
+							section.classList.add('fade-in');
+						}, index * 200);
+					});
 
-                setTimeout(() => {
-                    const skillLevels = document.querySelectorAll('.skill-level-fill');
-                    skillLevels.forEach(skill => {
-                        skill.style.width = skill.getAttribute('data-level') || '85%';
-                    });
-                }, 500);
+					setTimeout(() => {
+						const skillLevels = document.querySelectorAll('.skill-level-fill');
+						skillLevels.forEach(skill => {
+							skill.style.width = skill.getAttribute('data-level') || '85%';
+						});
+					}, 500);
 
-                initMap();
-            } else {
-                errorMessage.style.display = 'block';
-                shakeElement(document.getElementById('loginForm'));
-            }
-        } catch (error) {
-            console.error('Login failed:', error);
-            errorMessage.style.display = 'block';
-            shakeElement(document.getElementById('loginForm'));
-        }
-    }
+					initMap();
+				} else {
+					errorMessage.style.display = 'block';
+					shakeElement(document.getElementById('loginForm'));
+				}
+			} catch (error) {
+				console.error('Login failed:', error);
+				errorMessage.style.display = 'block';
+				shakeElement(document.getElementById('loginForm'));
+			}
+		}
+
+		async function register(event) {
+			event.preventDefault(); // Previne reîncărcarea paginii
+			const username = document.getElementById('regUsername').value;
+			const password = document.getElementById('regPassword').value;
+			const errorMessage = document.getElementById('regErrorMessage');
+
+			try {
+				const response = await fetch('http://localhost:5000/register', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ username, password })
+				});
+
+				const data = await response.json();
+
+				if (response.ok) {
+					alert('Înregistrare reușită! Te poți conecta acum.');
+					toggleForm('login');
+				} else {
+					errorMessage.textContent = data.message;
+					errorMessage.style.display = 'block';
+					shakeElement(document.getElementById('registerForm'));
+				}
+			} catch (error) {
+				console.error('Registration failed:', error);
+				errorMessage.style.display = 'block';
+				shakeElement(document.getElementById('registerForm'));
+			}
+		}
+
+		function toggleForm(form) {
+			const loginForm = document.getElementById('loginForm');
+			const registerForm = document.getElementById('registerForm');
+			
+			if (form === 'register') {
+				loginForm.style.display = 'none';
+				registerForm.style.display = 'block';
+			} else {
+				loginForm.style.display = 'block';
+				registerForm.style.display = 'none';
+			}
+		}
 
         function shakeElement(element) {
             element.style.animation = 'shake 0.5s';
