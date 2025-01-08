@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mihai Bundea - Software Engineer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            color: #2d3748;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.5s ease forwards;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4a90e2;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            background: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(74, 144, 226, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .profile-container {
+            display: none;
+            max-width: 1100px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    color: white;
+    /* Eliminăm majusculele forțate */
+    text-transform: none;
+}
+
+        .profile-header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .profile-header p {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+		
+		.contact-info {
+			display: flex;
+			justify-content: center;
+			gap: 30px;
+			margin-top: 25px;
+			flex-wrap: wrap;
+			color: black; /* Eliminăm ghilimelele */
+		}
+
+        .contact-info a {
+			color: black; /* Setează culoarea dorită */
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 10px 20px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 30px;
+			transition: all 0.3s ease;
+		}
+
+		.contact-info a:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-2px);
+			color: #4a90e2; /* Opțional: o altă culoare la hover */
+		}
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 25px;
+            border: 4px solid white;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .skill-item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #4a90e2;
+            transition: width 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-item:hover:before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 16px;
+            margin-top: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .error-message {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+            padding: 10px;
+            background: #fff5f5;
+            border-radius: 8px;
+            border: 1px solid #feb2b2;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: #4a90e2;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .experience-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience-item h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .experience-item p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .experience-item ul {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+
+        .experience-item ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.6;
+        }
+
+        .experience-item ul li:before {
+            content: "→";
+            color: #4a90e2;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .languages {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .language-item {
+            background: #f8fafc;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .language-item:hover {
+            background: #4a90e2;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .skill-level {
+            margin-top: 10px;
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-level-fill {
+            height: 100%;
+            background: #4a90e2;
+            transition: width 1s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .profile-container {
+                padding: 20px;
+            }
+
+            .profile-header {
+                padding: 30px 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .skills-container {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="login-container" id="loginForm">
+            <h2>Welcome Back</h2>
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> Credențiale invalide!
+                </div>
+            </div>
+            <button onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </div>
+
+        <div class="profile-container" id="profileContent">
+            <div class="section profile-header">
+    <img src="IMG_0829.jpg" alt="Mihai Bundea" class="profile-img">
+    <h1 style="color: black;">Mihai Bundea</h1>  <!-- Am schimbat din majuscule în format normal -->
+    <p>Backend Software Engineer</p>
+                <div class="contact-info">
+                    <a href="tel:+40749314745">
+                        <i class="fas fa-phone color="black"></i>
+                        +40 749 314 745
+                    </a>
+                    <a href="mailto:mihaibundea1@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                        mihaibundea1@gmail.com
+                    </a>
+                    <a href="https://ro.linkedin.com/in/mihai-bundea-551a55225">
+                        <i class="fab fa-linkedin"></i>
+                        LinkedIn
+                    </a>
+                    <a href="https://maps.app.goo.gl/CojCtneze69Se7556">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Brașov, Romania
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-user-circle"></i> Profil</h2>
+                <p style="font-size: 17px; line-height: 1.8;">
+                    Eager to innovate. I specialize in backend development with a focus on building scalable systems and improving software architecture. I've contributed to projects involving real-time response handling and relational database transactions. I'm also passionate about image processing and actively involved in related research.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-code"></i> Competențe</h2>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <i class="fas fa-laptop-code fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>C/C++</h3>
+                        <div class="skill-level">
+                            <div class="skill-level-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-python fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>Python</h3>
+                        <div class="skill-level">
+                            <div class="skill-level-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>JavaScript</h3>
+						<div class="skill-level">
+                            <div class="skill-level-fill" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-git-alt fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>Git</h3>
+                        <div class="skill-level">
+                            <div class="skill-level-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-docker fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>Docker</h3>
+                        <div class="skill-level">
+                            <div class="skill-level-fill" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-window-restore fa-2x" style="color: #4a90e2; margin-bottom: 10px;"></i>
+                        <h3>Qt Framework</h3>
+                        <div class="skill-level">
+                            <div class="skill-level-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-briefcase"></i> Experiență Profesională</h2>
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3>Software Engineer - Tecvivo</h3>
+                        <span style="background: #4a90e2; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px;">
+                            Dec 2022 - Prezent
+                        </span>
+                    </div>
+                    <p style="color: #4a5568; font-size: 15px;">
+                        <strong>Skills:</strong> C++/Qt, MySql, Docker, Microservices
+                    </p>
+                    <ul>
+                        <li>Created an app that migrates data in real-time from local databases (more than 100 locations) to a remote database, using MySQL transactions in C++.</li>
+                        <li>Refactored an app that sends verification codes via SMS and notifications.</li>
+                        <li>Member of a team tasked with refactoring a monolithic application into a microservices architecture.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3>IT Support Engineer - Hiperdia</h3>
+                        <span style="background: #4a90e2; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px;">
+                            Jul 2022 - Dec 2022
+                        </span>
+                    </div>
+                    <p style="color: #4a5568; font-size: 15px;">
+                        <strong>Skills:</strong> Active Directory, Networking, RDP
+                    </p>
+                    <ul>
+                        <li>Performed repair and troubleshooting of IT infrastructure.</li>
+                        <li>Implemented and maintained telecommunications and networking systems.</li>
+                        <li>Delivered technical support, leading to improved user satisfaction.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-graduation-cap"></i> Educație</h2>
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>UNIVERSITY OF TRANSILVANIA (UNITBV), BRAȘOV</h3>
+                        <span style="background: #4a90e2; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px;">
+                            2021-2025
+                        </span>
+                    </div>
+                    <p style="font-weight: 500; color: #2d3748; margin: 10px 0;">Bachelor of Engineering in Electrical Engineering and Computer Science</p>
+					<p style="color: #4a5568;">
+						<i class="fas fa-flask" style="color: #4a90e2;"></i>
+						CNN article: 
+						<a href="https://www.mdpi.com/2078-2489/15/10/611" target="_blank" style="color: #4a90e2; text-decoration: underline;">
+							Pneumonia Image Classification using DenseNet Architecture
+						</a>
+					</p>
+                </div>
+            </div>
+			
+			<div class="section projects">
+				<h2>Proiecte</h2>
+				<div class="project-item">
+					<h3>Aplicație Fitness - FitverseHub</h3>
+					<ul style="color: #4a5568; padding-left: 20px;">
+						<li>Am dezvoltat o aplicație de fitness folosind <strong>React Native</strong> cu un backend <strong>Flask</strong>, integrată cu <strong>Amazon S3</strong>, <strong>MongoDB</strong> și <strong>MySQL</strong>.</li>
+						<li>Am coordonat procesul de dezvoltare software, colaborând îndeaproape cu o echipă de 3 membri.</li>
+						<li>Am utilizat <strong>TypeScript</strong> pentru frontend și <strong>Python</strong> pentru backend.</li>
+						<li>Am proiectat și implementat funcționalități precum:
+							<ul style="padding-left: 20px;">
+								<li>Urmărirea activităților fizice</li>
+								<li>Planuri de antrenament personalizate</li>
+								<li>Integrarea fără probleme cu dispozitive purtabile</li>
+							</ul>
+						</li>
+					</ul>
+					<p><strong>Tehnologii folosite:</strong> React Native, Python, Flask, TypeScript, MongoDB, AWS Tools</p>
+					<p>
+						<a href="https://fitversehub.com" target="_blank" style="color: #4a90e2; text-decoration: underline;">
+							Accesează aplicația aici: FitverseHub
+						</a>
+					</p>
+				</div>
+			</div>
+
+
+
+            <div class="section">
+                <h2><i class="fas fa-language"></i> Limbi străine</h2>
+                <div class="languages">
+                    <div class="language-item">
+                        <i class="fas fa-check-circle"></i> English (Fluent)
+                    </div>
+                    <div class="language-item">
+                        <i class="fas fa-check-circle"></i> Romanian (Native)
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-map-marked-alt"></i> Locație</h2>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: '#4a90e2' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#4a90e2', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: false },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        	async function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('errorMessage');
+
+        try {
+            const response = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('profileContent').style.display = 'block';
+
+                const sections = document.querySelectorAll('.section');
+                sections.forEach((section, index) => {
+                    setTimeout(() => {
+                        section.classList.add('fade-in');
+                    }, index * 200);
+                });
+
+                setTimeout(() => {
+                    const skillLevels = document.querySelectorAll('.skill-level-fill');
+                    skillLevels.forEach(skill => {
+                        skill.style.width = skill.getAttribute('data-level') || '85%';
+                    });
+                }, 500);
+
+                initMap();
+            } else {
+                errorMessage.style.display = 'block';
+                shakeElement(document.getElementById('loginForm'));
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+            errorMessage.style.display = 'block';
+            shakeElement(document.getElementById('loginForm'));
+        }
+    }
+
+        function shakeElement(element) {
+            element.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 500);
+        }
+
+        function initMap() {
+            const brasov = { lat: 45.6427, lng: 25.5887 };
+
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: brasov,
+                styles: [
+                    {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [{"color": "#e9e9e9"},{"lightness": 17}]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "elementType": "geometry",
+                        "stylers": [{"color": "#f5f5f5"},{"lightness": 20}]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"color": "#ffffff"},{"lightness": 17}]
+                    }
+                ]
+            });
+
+            const marker = new google.maps.Marker({
+                position: brasov,
+                map: map,
+                title: 'Brașov',
+                animation: google.maps.Animation.DROP
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEuhnhWUfdyanj51EEuzhDmE6STh1Ml9E"></script>
+</body>
+</html>
+
