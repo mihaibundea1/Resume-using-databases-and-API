@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   maria-db:
     image: mariadb
@@ -31,7 +29,6 @@ services:
       - 5000:5000  # Expune portul 5000 pentru aplicația Flask
     depends_on:
       - maria-db
-    entrypoint: ["./wait-for-it.sh", "maria-db:3306", "--", "flask", "run", "--host=0.0.0.0", "--port=5000"]
     networks:
       provedb:
         ipv4_address: 10.10.0.3

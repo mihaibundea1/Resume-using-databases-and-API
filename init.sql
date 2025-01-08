@@ -8,10 +8,14 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL
 );
 
--- Crează utilizatorul 'admin' și atribuie-i toate privilegiile
-CREATE USER 'admin'@'%' IDENTIFIED BY 'admin_password';
+-- Verifică dacă utilizatorul 'admin' există și, dacă nu, creează-l
+CREATE USER IF NOT EXISTS 'admin'@'%' IDENTIFIED BY 'admin_password';
 
-GRANT ALL PRIVILEGES ON myapp.* TO 'admin'@'localhost' WITH GRANT OPTION;  -- Atribuie toate privilegiile pe baza de date 'myapp'
+-- Atribuie toate privilegiile pe baza de date 'myapp' pentru utilizatorul 'admin'
+GRANT ALL PRIVILEGES ON myapp.* TO 'admin'@'%' WITH GRANT OPTION;
+
+-- Permite conectarea de pe orice host
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' IDENTIFIED BY 'admin_password' WITH GRANT OPTION;
 
 -- Aplică modificările
 FLUSH PRIVILEGES;
