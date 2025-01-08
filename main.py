@@ -11,12 +11,12 @@ CORS(app)
 
 def get_db_connection():
     return pymysql.connect(
-        host="localhost",  # Try "localhost" if running locally, otherwise use the container name
+        host="maria-db",  # Try "localhost" if running locally, otherwise use the container name
         user="admin",
         password="admin_password",
         database="myapp",
-        port=3308  # Ensure you're using the correct port exposed by the container (3308 on the host)
-    )
+        port=3306  # If running outside docker set 3308
+        )
 
 
 @app.route('/login', methods=['POST'])
